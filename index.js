@@ -1,12 +1,28 @@
-const express = require('express');
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+
+const PORT = process.env.PORT || 5000;
 const app = express();
-const port = 3000;
 
-app.get('/api', (req, res) => {
-    res.json({data: "newData"})
-    console.log("Request");
-});
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors());
 
-app.listen(port, () => {
-    console.log(`Express server running on http://localhost:${port}`);
+const start = async () => {
+  try {
+    app.listen(PORT, () => {
+      console.log(`Server running on PORT = ${PORT}`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+start();
+
+app.get("/api", (req, res) => {
+  res.json({ data: "newData" });
+  console.log("Request");
 });
