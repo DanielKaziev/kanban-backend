@@ -23,6 +23,6 @@ const start = async () => {
 start();
 
 app.get("/api", (req, res) => {
-  res.json({ data: "newData" });
+  res.json({ data: "test" });
   console.log("Request");
 });
