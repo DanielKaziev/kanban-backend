@@ -1,48 +1,57 @@
-import Permission from "./Permission";
-import Role from "./Role";
-import RolePermission from "./RolePermission";
-import Token from "./Token";
-import User from "./User";
-import UserStateHistory from "./UserStateHistory";
+import Board from "./Board";
+import Event from "./Event";
+import Task from "./Task";
+import TaskExecutor from "./TaskExecutor";
+import BoardUser from "./BoardUser";
+import Tag from "./Tag";
+import TaskTag from "./TaskTag";
+import BoardTag from "./BoardTag";
+import BoardInvite from "./BoardInvite";
 
-// User.roleId > Role.id
-User.belongsTo(Role, { foreignKey: "roleId", targetKey: "id" });
-Role.hasMany(User, { foreignKey: "roleId", sourceKey: "id" });
+// Board > Event
+Board.hasMany(Event, { foreignKey: "boardId", sourceKey: "id" });
+Event.belongsTo(Board, { foreignKey: "boardId", targetKey: "id" });
 
-// User.id < UserStateHistory.userId
-User.hasMany(UserStateHistory, { foreignKey: "userId", sourceKey: "id" });
-UserStateHistory.belongsTo(User, { foreignKey: "userId", targetKey: "id" });
+// Event < Task
+Event.hasMany(Task, { foreignKey: "eventId", sourceKey: "id" });
+Task.belongsTo(Event, { foreignKey: "eventId", targetKey: "id" });
 
-// User.id < UserStateHistory.decisionerId
-User.hasMany(UserStateHistory, { foreignKey: "decisionerId", sourceKey: "id" });
-UserStateHistory.belongsTo(User, {
-  foreignKey: "decisionerId",
-  targetKey: "id",
-});
+// Task < TaskExecutor
+Task.hasMany(TaskExecutor, { foreignKey: "taskId", sourceKey: "id" });
+TaskExecutor.belongsTo(Task, { foreignKey: "taskId", targetKey: "id" });
 
-// Role.id < RolePermission.roleId
-Role.hasMany(RolePermission, { foreignKey: "roleId", sourceKey: "id" });
-RolePermission.belongsTo(Role, { foreignKey: "roleId", targetKey: "id" });
+// Board < BoardUser
+Board.hasMany(BoardUser, { foreignKey: "boardId", sourceKey: "id" });
+BoardUser.belongsTo(Board, { foreignKey: "boardId", targetKey: "id" });
 
-// Permission.id < RolePermission.permissionId
-Permission.hasMany(RolePermission, {
-  foreignKey: "permissionId",
-  sourceKey: "id",
-});
-RolePermission.belongsTo(Permission, {
-  foreignKey: "permissionId",
-  targetKey: "id",
-});
+// Task < TaskTag
+Task.hasMany(TaskTag, { foreignKey: "taskId", sourceKey: "id" });
+TaskTag.belongsTo(Task, { foreignKey: "taskId", targetKey: "id" });
 
-// Token.userId > User.id
-User.hasMany(Token, { foreignKey: "userId", sourceKey: "id" });
-Token.belongsTo(User, { foreignKey: "userId", targetKey: "id" });
+// Tag < TaskTag
+Tag.hasMany(TaskTag, { foreignKey: "tagId", sourceKey: "id" });
+TaskTag.belongsTo(Tag, { foreignKey: "tagId", targetKey: "id" });
+
+// Board < BoardTag
+Board.hasMany(BoardTag, { foreignKey: "boardId", sourceKey: "id" });
+BoardTag.belongsTo(Board, { foreignKey: "boardId", targetKey: "id" });
+
+// Tag < BoardTag
+Tag.hasMany(BoardTag, { foreignKey: "tagId", sourceKey: "id" });
+BoardTag.belongsTo(Tag, { foreignKey: "tagId", targetKey: "id" });
+
+// Board < BoardInvite
+Board.hasMany(BoardInvite, { foreignKey: "boardId", sourceKey: "id" });
+BoardInvite.belongsTo(Board, { foreignKey: "boardId", targetKey: "id" });
 
 export default {
-  User,
-  UserStateHistory,
-  Role,
-  Permission,
-  Token,
-  RolePermission,
+  Board,
+  Event,
+  Task,
+  TaskExecutor,
+  BoardUser,
+  Tag,
+  TaskTag,
+  BoardTag,
+  BoardInvite,
 };

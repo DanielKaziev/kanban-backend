@@ -1,12 +1,8 @@
 import { Router } from "express";
-import roleRouter from "./roleRouters";
-import permissionRouter from "./permissionRouters";
-import authRouter from "./authRouter";
+import boardRouter from "./boardRouter";
 
 const router = Router();
 
-router.use("/auth", authRouter);
-router.use("/role", roleRouter);
-router.use("/permission", permissionRouter);
+router.use("/boards", boardRouter);
 
 export default router;

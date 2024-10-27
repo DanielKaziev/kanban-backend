@@ -1,40 +1,39 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../db";
 
-interface TokenAttributes {
+interface EventAttributes {
   id: string;
-  token: string;
-  userId: string;
-}
-
-export interface TokenInstance
-  extends Model<TokenAttributes, Optional<TokenAttributes, "id">>,
-    TokenAttributes {
+  name: string;
+  boardId: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-const Token = sequelize.define<TokenInstance>(
-  "Token",
+export interface EventInstance
+  extends Model<EventAttributes, Optional<EventAttributes, "id">>,
+    EventAttributes {}
+
+const Event = sequelize.define<EventInstance>(
+  "Event",
   {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    token: {
-      type: DataTypes.TEXT,
+    name: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    userId: {
+    boardId: {
       type: DataTypes.UUID,
       allowNull: false,
     },
   },
   {
     timestamps: true,
-    tableName: "Token",
+    tableName: "Event",
   }
 );
 
-export default Token;
+export default Event;

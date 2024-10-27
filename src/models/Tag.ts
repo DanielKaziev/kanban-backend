@@ -1,21 +1,19 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../db";
 
-interface RoleAttributes {
+interface TagAttributes {
   id: string;
   name: string;
-  description: string;
-}
-
-export interface RoleInstance
-  extends Model<RoleAttributes, Optional<RoleAttributes, "id">>,
-    RoleAttributes {
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-const Role = sequelize.define<RoleInstance>(
-  "Role",
+export interface TagInstance
+  extends Model<TagAttributes, Optional<TagAttributes, "id">>,
+    TagAttributes {}
+
+const Tag = sequelize.define<TagInstance>(
+  "Tag",
   {
     id: {
       type: DataTypes.UUID,
@@ -25,17 +23,12 @@ const Role = sequelize.define<RoleInstance>(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
-    },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: true,
     },
   },
   {
     timestamps: true,
-    tableName: "Role",
+    tableName: "Tag",
   }
 );
 
-export default Role;
+export default Tag;
