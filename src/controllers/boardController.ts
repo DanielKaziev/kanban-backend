@@ -4,46 +4,57 @@ import { ResponseError } from "../utils/errors";
 class BoardController {
   public async getListBoards(req: Request, res: Response, next: NextFunction) {
     try {
-      return ResponseError.NotImplemented
+      return ResponseError.NotImplemented;
     } catch (error) {
       next(error);
     }
   }
   public async getBoardById(req: Request, res: Response, next: NextFunction) {
     try {
-      return ResponseError.NotImplemented
+      return ResponseError.NotImplemented;
     } catch (error) {
       next(error);
     }
   }
-  public async getOwnListBoards(req: Request, res: Response, next: NextFunction) {
-    try {      
-      return ResponseError.NotImplemented("NotImplemented")
+  public async getOwnListBoards(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      return ResponseError.NotImplemented("NotImplemented");
     } catch (error) {
       next(error);
     }
   }
   public async createBoard(req: Request, res: Response, next: NextFunction) {
     try {
-      return ResponseError.NotImplemented
+      return ResponseError.NotImplemented;
     } catch (error) {
       next(error);
     }
   }
-  public async updateBoardById(req: Request, res: Response, next: NextFunction) {
+  public async updateBoardById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
-      return ResponseError.NotImplemented
+      return ResponseError.NotImplemented;
     } catch (error) {
       next(error);
     }
   }
-  public async deleteBoardById(req: Request, res: Response, next: NextFunction) {
+  public async deleteBoardById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
-      return ResponseError.NotImplemented
+      return ResponseError.NotImplemented;
     } catch (error) {
       next(error);
     }
   }
-
 }
 export default new BoardController();
