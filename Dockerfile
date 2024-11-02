@@ -20,7 +20,7 @@ COPY --from=builder /usr/src/app/package*.json ./
 
 RUN npm install --only=production
 
-ENV PORT=5000
+ENV PORT=5005
 ENV NODE_ENV=production
 
 EXPOSE ${PORT}
