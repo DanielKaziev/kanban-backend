@@ -1,29 +1,22 @@
-import * as dotenv from 'dotenv';
+import app from "./app";
+import sequelize from "./db";
+import dotenv from "dotenv";
+
 dotenv.config();
-import express, { Request, Response } from 'express';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
 
-const PORT = process.env.PORT || 5000;
-const app = express();
+const PORT = process.env.KANBAN_BOARDS_PORT || 5005;
 
-app.use(express.json());
-app.use(cookieParser());
-app.use(cors());
-
-const start = async (): Promise<void> => {
+const start = async () => {
   try {
+    await sequelize.authenticate();
+    await sequelize.sync();
+
     app.listen(PORT, () => {
-      console.log(`Server running on PORT = ${PORT}`);
+      console.log("\x1b[32m", `Boards service started on PORT = ${PORT}`);
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log("Error: ", err);
   }
 };
 
 start();
-
-app.get('/api', (req: Request, res: Response) => {
-  res.json({ data: 'test' });
-  console.log('Request');
-});
