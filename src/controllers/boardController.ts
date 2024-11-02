@@ -16,6 +16,13 @@ class BoardController {
       next(error);
     }
   }
+  public async getOwnListBoards(req: Request, res: Response, next: NextFunction) {
+    try {      
+      return ResponseError.NotImplemented("NotImplemented")
+    } catch (error) {
+      next(error);
+    }
+  }
   public async createBoard(req: Request, res: Response, next: NextFunction) {
     try {
       return ResponseError.NotImplemented

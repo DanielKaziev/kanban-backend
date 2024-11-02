@@ -4,6 +4,7 @@ import boardController from "../controllers/boardController";
 const boardRouter = Router();
 
 boardRouter.get("/", boardController.getListBoards);
+boardRouter.get("/own", boardController.getOwnListBoards);
 boardRouter.get("/:id", boardController.getBoardById);
 boardRouter.post("/", boardController.createBoard);
 boardRouter.put("/:id", boardController.updateBoardById);

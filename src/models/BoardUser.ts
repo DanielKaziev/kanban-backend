@@ -4,7 +4,7 @@ import sequelize from "../db";
 interface BoardUserAttributes {
   boardId: string;
   userId: string;
-  participantPermission: string;
+  userBoardRoleId: string;
 }
 
 export interface BoardUserInstance
@@ -22,8 +22,8 @@ const BoardUser = sequelize.define<BoardUserInstance>(
       type: DataTypes.UUID,
       allowNull: false,
     },
-    participantPermission: {
-      type: DataTypes.ENUM("spectator", "editor", "admin"),
+    userBoardRoleId: {
+      type: DataTypes.UUID,
       allowNull: false,
     },
   },
