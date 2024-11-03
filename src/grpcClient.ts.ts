@@ -12,12 +12,27 @@ const client = new authProto.AuthService(
   grpc.credentials.createInsecure()
 );
 
-export function validateToken(
+export function validateTokenPermission(
   token: string,
   permission: string
 ): Promise<IResponseMessage> {
   return new Promise((resolve, reject) => {
-    client.ValidateToken({ token, permission }, (error: any, response: any) => {
+    client.ValidateTokenPermission(
+      { token, permission },
+      (error: any, response: any) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(response);
+        }
+      }
+    );
+  });
+}
+
+export function validateToken(token: string): Promise<IResponseMessage> {
+  return new Promise((resolve, reject) => {
+    client.ValidateToken({ token }, (error: any, response: any) => {
       if (error) {
         reject(error);
       } else {

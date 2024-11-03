@@ -1,7 +1,7 @@
 import app from "./app";
 import sequelize from "./db";
 import dotenv from "dotenv";
-import { validateToken } from "./grpcClient.ts";
+import { validateToken, validateTokenPermission } from "./grpcClient.ts";
 
 dotenv.config();
 
@@ -13,9 +13,14 @@ const start = async () => {
     await sequelize.sync();
 
     // (async () => {
-    //   const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE0NDc0NTczLTE0NWUtNDhmOC1iZDRhLTA3MzkwNDVhMWMxMiIsInVzZXJuYW1lIjoiU3VwZXJfRGVuXzc3NyIsImVtYWlsIjoia2F6aWV2MzBAbWFpbC5ydSIsInN0YXRlIjoiYWN0aXZlIiwicm9sZSI6InVzZXIiLCJwZXJtaXNzaW9ucyI6WyJjcmVhdGVfYm9hcmQiLCJ1cGRhdGVfYm9hcmQiLCJkZWxldGVfYm9hcmQiLCJjcmVhdGVfdGFzayIsInVwZGF0ZV90YXNrIiwiZGVsZXRlX3Rhc2siLCJjcmVhdGVfZXZlbnQiLCJ1cGRhdGVfZXZlbnQiLCJkZWxldGVfZXZlbnQiXSwiaWF0IjoxNzMwNTc5NjEyLCJleHAiOjE3MzA1ODE0MTJ9.4Zv-1qmAEyyVL7JWz05HwI7A2Rb4ZBFbSClFZWMQBaw';
-    //   const actions = await validateToken(token, "create_board");
-    //   console.log(actions);
+    //   try {
+    //     const token =
+    //       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE0NDc0NTczLTE0NWUtNDhmOC1iZDRhLTA3MzkwNDVhMWMxMiIsInVzZXJuYW1lIjoiU3VwZXJfRGVuXzc3NyIsImVtYWlsIjoia2F6aWV2MzBAbWFpbC5ydSIsInN0YXRlIjoiYWN0aXZlIiwicm9sZSI6InVzZXIiLCJwZXJtaXNzaW9ucyI6WyJjcmVhdGVfYm9hcmQiLCJ1cGRhdGVfYm9hcmQiLCJkZWxldGVfYm9hcmQiLCJjcmVhdGVfdGFzayIsInVwZGF0ZV90YXNrIiwiZGVsZXRlX3Rhc2siLCJjcmVhdGVfZXZlbnQiLCJ1cGRhdGVfZXZlbnQiLCJkZWxldGVfZXZlbnQiXSwiaWF0IjoxNzMwNjYzOTA0LCJleHAiOjE3MzA2NjU3MDR9.JU_bFfr6c4LHwXT3p1ee3SppNcszFqqg5cXdSzb_9kM";
+    //     const actions = await validateToken(token);
+    //     console.log(actions);
+    //   } catch (error: any) {
+    //     console.log("gRPC error: ", error.details);
+    //   }
     // })();
 
     app.listen(PORT, () => {
