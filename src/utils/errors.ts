@@ -10,6 +10,10 @@ class RequestError extends Error {
     this.errors = errors;
   }
 
+  static Custom(status: number, message: string, errors?: Array<any>) {
+    return new RequestError(status, message, errors);
+  }
+
   static BadRequest(message: string, errors?: Array<any>) {
     return new RequestError(400, message, errors);
   }

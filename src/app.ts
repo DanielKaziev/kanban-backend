@@ -1,5 +1,4 @@
 import express, { Application } from "express";
-import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import "./models/models";
@@ -19,7 +18,6 @@ const corsOptions = {
 };
 
 app.use(express.json());
-app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(BASE_URL, router);
 app.use(errorMiddleware);

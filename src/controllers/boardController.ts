@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ResponseError } from "../utils/errors";
+import { getAuthHeader, getTokenData } from "../utils/token";
 
 class BoardController {
   public async getListBoards(req: Request, res: Response, next: NextFunction) {
@@ -22,9 +23,9 @@ class BoardController {
     next: NextFunction
   ) {
     try {
-      
+      const token = getAuthHeader(req);
+      const { id } = getTokenData(token);
 
-      
       throw ResponseError.NotImplemented("NotImplemented");
     } catch (error) {
       next(error);

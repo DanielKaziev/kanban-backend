@@ -1,11 +1,15 @@
 import { Router } from "express";
 import boardController from "../controllers/boardController";
-import authMiddleware from "../middlewares/authMiddleware";
+import { authWithPermissionMiddleware } from "../middlewares/authMiddleware";
 
 const boardRouter = Router();
 
 boardRouter.get("/", boardController.getListBoards);
-boardRouter.get("/own", authMiddleware, boardController.getOwnListBoards);
+boardRouter.get(
+  "/own",
+  authWithPermissionMiddleware("read_board"),
+  boardController.getOwnListBoards
+);
 boardRouter.get("/:id", boardController.getBoardById);
 boardRouter.post("/", boardController.createBoard);
 boardRouter.put("/:id", boardController.updateBoardById);
