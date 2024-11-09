@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { ResponseError } from "../utils/errors";
 import { getAuthHeader, getTokenData } from "../utils/token";
+import boardService from "../service/boardService";
 
 class BoardController {
   public async getListBoards(req: Request, res: Response, next: NextFunction) {
@@ -25,7 +26,11 @@ class BoardController {
     try {
       const token = getAuthHeader(req);
       const { id } = getTokenData(token);
-
+      
+      const data = await boardService.getListBoardsByUserId(id)
+      console.log(data);
+      
+      return res.json(data);
       throw ResponseError.NotImplemented("NotImplemented");
     } catch (error) {
       next(error);

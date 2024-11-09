@@ -5,7 +5,6 @@ interface BoardAttributes {
   id: string;
   name: string;
   description: string;
-  creatorId: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -29,10 +28,6 @@ const Board = sequelize.define<BoardInstance>(
     description: {
       type: DataTypes.STRING,
       allowNull: true,
-    },
-    creatorId: {
-      type: DataTypes.UUID,
-      allowNull: false,
     },
   },
   {

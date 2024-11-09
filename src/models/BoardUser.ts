@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../db";
+import { BoardInstance } from "./Board";
 
 interface BoardUserAttributes {
   boardId: string;
@@ -9,7 +10,9 @@ interface BoardUserAttributes {
 
 export interface BoardUserInstance
   extends Model<BoardUserAttributes>,
-    BoardUserAttributes {}
+    BoardUserAttributes {
+      Board: BoardInstance;
+    }
 
 const BoardUser = sequelize.define<BoardUserInstance>(
   "BoardUser",
