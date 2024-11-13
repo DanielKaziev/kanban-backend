@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { ResponseError } from "../utils/errors";
-import { getAuthHeader, getTokenData } from "../utils/token";
+import { getTokenData } from "../utils/token";
 import boardService from "../service/boardService";
+import { IBoardCreate } from "../types/boards";
 
 class BoardController {
   public async getListBoards(req: Request, res: Response, next: NextFunction) {
@@ -24,21 +25,26 @@ class BoardController {
     next: NextFunction
   ) {
     try {
-      const token = getAuthHeader(req);
-      const { id } = getTokenData(token);
-      
-      const data = await boardService.getListBoardsByUserId(id)
-      console.log(data);
-      
+      const { id } = getTokenData(req);
+
+      const data = await boardService.getListBoardsByUserId(id);
+
       return res.json(data);
-      throw ResponseError.NotImplemented("NotImplemented");
     } catch (error) {
       next(error);
     }
   }
   public async createBoard(req: Request, res: Response, next: NextFunction) {
     try {
-      throw ResponseError.NotImplemented("NotImplemented");
+      const { id } = getTokenData(req);
+      const boardInfo = req.body as IBoardCreate;
+
+      const boardRes = await boardService.createBoard({
+        ...boardInfo,
+        userId: id,
+      });
+
+      return res.status(201).json(boardRes);
     } catch (error) {
       next(error);
     }
