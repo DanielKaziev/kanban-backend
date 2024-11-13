@@ -1,18 +1,19 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../db";
 import { BoardInstance } from "./Board";
+import { EUserBoardRole } from "../config/state";
 
 interface BoardUserAttributes {
   boardId: string;
   userId: string;
-  userBoardRoleId: string;
+  userBoardRole: EUserBoardRole;
 }
 
 export interface BoardUserInstance
   extends Model<BoardUserAttributes>,
     BoardUserAttributes {
-      Board: BoardInstance;
-    }
+  Board: BoardInstance;
+}
 
 const BoardUser = sequelize.define<BoardUserInstance>(
   "BoardUser",
@@ -25,8 +26,8 @@ const BoardUser = sequelize.define<BoardUserInstance>(
       type: DataTypes.UUID,
       allowNull: false,
     },
-    userBoardRoleId: {
-      type: DataTypes.UUID,
+    userBoardRole: {
+      type: DataTypes.ENUM(...Object.values(EUserBoardRole)),
       allowNull: false,
     },
   },

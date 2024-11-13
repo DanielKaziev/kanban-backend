@@ -1,7 +1,6 @@
 import app from "./app";
 import sequelize from "./db";
 import dotenv from "dotenv";
-import { validateToken, validateTokenPermission } from "./grpcClient.ts";
 
 dotenv.config();
 

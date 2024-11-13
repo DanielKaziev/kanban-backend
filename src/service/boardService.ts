@@ -12,14 +12,12 @@ class BoardService {
         },
       ],
     });
-    
-    
-    // Извлекаем данные о досках и ролях пользователя
+
     const boardsAndRoles = boardUsers.map((boardUser) => ({
       id: boardUser.boardId,
       name: boardUser.Board.name,
       description: boardUser.Board.description,
-      userRole: boardUser.userBoardRoleId,
+      userRole: boardUser.userBoardRole,
       createdAt: boardUser.Board.createdAt,
       updatedAt: boardUser.Board.updatedAt,
     }));

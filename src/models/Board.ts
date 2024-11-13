@@ -5,13 +5,14 @@ interface BoardAttributes {
   id: string;
   name: string;
   description: string;
+  isPrivate: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export interface BoardInstance
   extends Model<BoardAttributes, Optional<BoardAttributes, "id">>,
-  BoardAttributes {}
+    BoardAttributes {}
 
 const Board = sequelize.define<BoardInstance>(
   "Board",
@@ -23,6 +24,10 @@ const Board = sequelize.define<BoardInstance>(
     },
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    isPrivate: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
     description: {
