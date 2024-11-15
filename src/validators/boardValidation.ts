@@ -1,6 +1,5 @@
-import { body, validationResult } from "express-validator";
-import { Request, Response, NextFunction } from "express";
-import { RequestError } from "../utils/errors";
+import { body, param } from "express-validator";
+import { validatorErrorHandler } from "../utils/validator";
 
 export const validateCreateBoard = [
   body("name")
@@ -22,11 +21,14 @@ export const validateCreateBoard = [
     .withMessage("isPrivate must be a boolean")
     .notEmpty()
     .withMessage("isPrivate is required"),
-  (req: Request, res: Response, next: NextFunction) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw RequestError.BadRequest(errors.array()[0].msg);
-    }
-    next();
-  },
+  validatorErrorHandler,
+];
+
+export const validateDeleteBoard = [
+  param("id")
+    .isUUID()
+    .withMessage("Id must be an UUID")
+    .notEmpty()
+    .withMessage("Id is required"),
+  validatorErrorHandler,
 ];

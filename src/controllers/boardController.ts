@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ResponseError } from "../utils/errors";
+import { RequestError, ResponseError } from "../utils/errors";
 import { getTokenData } from "../utils/token";
 import boardService from "../service/boardService";
 import { IBoardCreate } from "../types/boards";
@@ -66,7 +66,13 @@ class BoardController {
     next: NextFunction
   ) {
     try {
-      throw ResponseError.NotImplemented("NotImplemented");
+      const { id: boardId } = req.params;
+      const { id: userId } = getTokenData(req);
+      if (!boardId) throw RequestError.BadRequest("Id was not provided!");
+
+      await boardService.deleteBoardById(boardId, userId);
+
+      return res.status(204).end();
     } catch (error) {
       next(error);
     }

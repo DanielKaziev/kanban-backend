@@ -32,7 +32,21 @@ class BoardService {
   public async createBoard(data: IBoard) {
     const { userId, name, description, isPrivate } = data;
 
-    const existingBoard = await this.isBoardExists(name, userId);
+    const existingBoard = await Board.findOne({
+      where: {
+        name: name,
+      },
+      include: [
+        {
+          model: BoardUser,
+          where: {
+            userId: userId,
+          },
+          attributes: [],
+        },
+      ],
+    });
+
     if (existingBoard)
       throw RequestError.BadRequest(`Board with name: ${name} already exist!`);
 
@@ -75,22 +89,25 @@ class BoardService {
     }
   }
 
-  private async isBoardExists(boardName: string, userId: string) {
-    const existingBoard = await Board.findOne({
+  public async deleteBoardById(boardId: string, userId: string) {
+    const userBoardData = await BoardUser.findOne({
       where: {
-        name: boardName,
+        userId: userId,
+        boardId: boardId,
       },
-      include: [
-        {
-          model: BoardUser,
-          where: {
-            userId: userId,
-          },
-          attributes: [],
-        },
-      ],
     });
-    return Boolean(existingBoard);
+    if (!userBoardData)
+      throw RequestError.Forbidden("No access or board does not exist!");
+    if (userBoardData.userBoardRole !== EUserBoardRole.HOST)
+      throw RequestError.Forbidden("No permission to delete board!");
+
+    const board = await Board.findOne({ where: { id: boardId } });
+    if (!board)
+      throw RequestError.BadRequest(
+        `Board with id: ${boardId} does not exist!`
+      );
+
+    await board.destroy();
   }
 }
 export default new BoardService();

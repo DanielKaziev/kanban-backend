@@ -1,7 +1,10 @@
 import { Router } from "express";
 import boardController from "../controllers/boardController";
 import authMiddleware from "../middlewares/authMiddleware";
-import { validateCreateBoard } from "../validators/boardValidation";
+import {
+  validateCreateBoard,
+  validateDeleteBoard,
+} from "../validators/boardValidation";
 
 const boardRouter = Router();
 
@@ -15,6 +18,11 @@ boardRouter.post(
   boardController.createBoard
 );
 boardRouter.put("/:id", boardController.updateBoardById);
-boardRouter.delete("/:id", boardController.deleteBoardById);
+boardRouter.delete(
+  "/:id",
+  authMiddleware("control_board"),
+  validateDeleteBoard,
+  boardController.deleteBoardById
+);
 
 export default boardRouter;
