@@ -5,6 +5,7 @@ interface EventAttributes {
   id: string;
   name: string;
   boardId: string;
+  order: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -23,6 +24,10 @@ const Event = sequelize.define<EventInstance>(
     },
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    order: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     boardId: {
