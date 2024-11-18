@@ -14,7 +14,12 @@ class BoardController {
   }
   public async getBoardById(req: Request, res: Response, next: NextFunction) {
     try {
-      throw ResponseError.NotImplemented("NotImplemented");
+      const { id: boardId } = req.params;
+      const { id: userId } = getTokenData(req);
+
+      const board = await boardService.getBoardById(boardId, userId);
+
+      return res.json(board);
     } catch (error) {
       next(error);
     }

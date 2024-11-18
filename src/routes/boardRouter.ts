@@ -3,14 +3,19 @@ import boardController from "../controllers/boardController";
 import authMiddleware from "../middlewares/authMiddleware";
 import {
   validateCreateBoard,
-  validateDeleteBoard,
+  validateIdBoard,
 } from "../validators/boardValidation";
 
 const boardRouter = Router();
 
 boardRouter.get("/", boardController.getListBoards);
 boardRouter.get("/own", authMiddleware(), boardController.getOwnListBoards);
-boardRouter.get("/:id", boardController.getBoardById);
+boardRouter.get(
+  "/:id",
+  authMiddleware(),
+  validateIdBoard,
+  boardController.getBoardById
+);
 boardRouter.post(
   "/",
   authMiddleware("control_board"),
@@ -21,7 +26,7 @@ boardRouter.put("/:id", boardController.updateBoardById);
 boardRouter.delete(
   "/:id",
   authMiddleware("control_board"),
-  validateDeleteBoard,
+  validateIdBoard,
   boardController.deleteBoardById
 );
 

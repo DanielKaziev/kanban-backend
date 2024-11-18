@@ -109,5 +109,33 @@ class BoardService {
 
     await board.destroy();
   }
+
+  public async getBoardById(boardId: string, userId: string) {
+    const board = await Board.findOne({ where: { id: boardId } });
+    if (!board)
+      throw RequestError.NotFound(`Can't find boars with id: ${boardId}`);
+    if (board.isPrivate) {
+      const userBoard = await BoardUser.findOne({
+        where: { boardId: boardId, userId: userId },
+      });
+      if (!userBoard)
+        throw RequestError.Forbidden(
+          "User has not permission to view this board!"
+        );
+      return {
+        id: board.id,
+        name: board.name,
+        description: board.description,
+        isPrivate: board.isPrivate,
+      };
+    }
+
+    return {
+      id: board.id,
+      name: board.name,
+      description: board.description,
+      isPrivate: board.isPrivate,
+    };
+  }
 }
 export default new BoardService();

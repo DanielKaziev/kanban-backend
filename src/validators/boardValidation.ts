@@ -24,7 +24,7 @@ export const validateCreateBoard = [
   validatorErrorHandler,
 ];
 
-export const validateDeleteBoard = [
+export const validateIdBoard = [
   param("id")
     .isUUID()
     .withMessage("Id must be an UUID")
