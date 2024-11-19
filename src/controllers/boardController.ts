@@ -14,7 +14,7 @@ class BoardController {
   }
   public async getBoardById(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id: boardId } = req.params;
+      const { boardId } = req.params;
       const { id: userId } = getTokenData(req);
 
       const board = await boardService.getBoardById(boardId, userId);
@@ -71,7 +71,7 @@ class BoardController {
     next: NextFunction
   ) {
     try {
-      const { id: boardId } = req.params;
+      const { boardId } = req.params;
       const { id: userId } = getTokenData(req);
       if (!boardId) throw RequestError.BadRequest("Id was not provided!");
 

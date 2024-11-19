@@ -5,7 +5,6 @@ interface TaskAttributes {
   id: string;
   name: string;
   description?: string;
-  order: number;
   eventId: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -30,10 +29,6 @@ const Task = sequelize.define<TaskInstance>(
     description: {
       type: DataTypes.STRING,
       allowNull: true,
-    },
-    order: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
     },
     eventId: {
       type: DataTypes.UUID,

@@ -5,13 +5,13 @@ import {
   validateCreateBoard,
   validateIdBoard,
 } from "../validators/boardValidation";
+import eventController from "../controllers/eventController";
 
 const boardRouter = Router();
 
-boardRouter.get("/", boardController.getListBoards);
 boardRouter.get("/own", authMiddleware(), boardController.getOwnListBoards);
 boardRouter.get(
-  "/:id",
+  "/:boardId",
   authMiddleware(),
   validateIdBoard,
   boardController.getBoardById
@@ -22,12 +22,22 @@ boardRouter.post(
   validateCreateBoard,
   boardController.createBoard
 );
-boardRouter.put("/:id", boardController.updateBoardById);
 boardRouter.delete(
-  "/:id",
+  "/:boardId",
   authMiddleware("control_board"),
   validateIdBoard,
   boardController.deleteBoardById
+);
+
+boardRouter.get(
+  "/:boardId/events",
+  authMiddleware(),
+  eventController.getListEvents
+);
+boardRouter.post(
+  "/:boardId/events",
+  authMiddleware(),
+  eventController.createEvent
 );
 
 export default boardRouter;
