@@ -1,10 +1,20 @@
 import { Router } from "express";
-import eventController from "../controllers/eventController";
 import { authMiddleware } from "../middlewares/authMiddleware";
+import taskController from "../controllers/taskController";
+import { validateCreateTask } from "../validators/taskValidation";
 
 const eventRouter = Router();
 
-eventRouter.get("/:boardId", authMiddleware(), eventController.getListEvents);
-eventRouter.post("/:boardId", authMiddleware(), eventController.createEvent);
+eventRouter.get(
+  "/:eventId/tasks",
+  authMiddleware(),
+  taskController.getListTasks
+);
+eventRouter.post(
+  "/:eventId/tasks",
+  authMiddleware(),
+  validateCreateTask,
+  taskController.createTask
+);
 
 export default eventRouter;

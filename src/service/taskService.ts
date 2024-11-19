@@ -33,5 +33,19 @@ class TaskService {
 
     return task;
   }
+
+  public async getTaskById(taskId: string) {
+    const tasks = await Task.findOne({ where: { id: taskId } });
+    if (!tasks) throw RequestError.NotFound("Can not find task!");
+
+    return tasks;
+  }
+
+  public async moveTask(taskId: string, targetEvent: string) {
+    const task = await this.getTaskById(taskId);
+    const newTask = await task.update({ eventId: targetEvent });
+
+    return newTask;
+  }
 }
 export default new TaskService();

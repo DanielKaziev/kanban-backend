@@ -13,12 +13,14 @@ class EventService {
     const events = await Event.findAll({ where: { boardId: boardId } });
     return events;
   }
+
   public async getEventById(eventId: string) {
     const event = await Event.findOne({ where: { id: eventId } });
-    if (!event) throw RequestError.NotFound("Can not find event!");
+    if (!event) throw RequestError.NotFound(`Can not find event ${eventId}!`);
 
     return event;
   }
+
   public async createEvent(boardId: string, body: ICreateEvent) {
     const existsEvent = await Event.findOne({
       where: { name: body.name, boardId: boardId },
