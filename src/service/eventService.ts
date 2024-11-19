@@ -9,19 +9,17 @@ import boardService from "./boardService";
 import { ICreateEvent } from "../types/events";
 
 class EventService {
-  public async getEventsListByBoardId(boardId: string, userId: string) {
-    await boardService.checkEditability(boardId, userId);
-
+  public async getEventsListByBoardId(boardId: string) {
     const events = await Event.findAll({ where: { boardId: boardId } });
     return events;
   }
-  public async createEvent(
-    boardId: string,
-    userId: string,
-    body: ICreateEvent
-  ) {
-    await boardService.checkVisibility(boardId, userId);
+  public async getEventById(eventId: string) {
+    const event = await Event.findOne({ where: { id: eventId } });
+    if (!event) throw RequestError.NotFound("Can not find event!");
 
+    return event;
+  }
+  public async createEvent(boardId: string, body: ICreateEvent) {
     const existsEvent = await Event.findOne({
       where: { name: body.name, boardId: boardId },
     });
@@ -35,7 +33,7 @@ class EventService {
       order: body.order,
       boardId: boardId,
     });
-    
+
     return event;
   }
 }

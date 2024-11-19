@@ -146,10 +146,10 @@ class BoardService {
     };
   }
 
-  public async checkVisibility(boardId: string, userId: string) {
+  public async checkEditability(boardId: string, userId: string) {
     const board = await Board.findOne({ where: { id: boardId } });
     if (!board)
-      throw RequestError.NotFound(`Can't find boars with id: ${boardId}`);
+      throw RequestError.NotFound(`Can't find board with id: ${boardId}`);
 
     const userBoard = await BoardUser.findOne({
       where: { boardId: boardId, userId: userId },
@@ -167,7 +167,7 @@ class BoardService {
     );
   }
 
-  public async checkEditability(boardId: string, userId: string) {
+  public async checkVisibility(boardId: string, userId: string) {
     const board = await Board.findOne({ where: { id: boardId } });
     if (!board)
       throw RequestError.NotFound(`Can't find boars with id: ${boardId}`);

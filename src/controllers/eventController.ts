@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { ResponseError } from "../utils/errors";
 import { getTokenData } from "../utils/token";
 import eventService from "../service/eventService";
 import { ICreateEvent } from "../types/events";
+import boardService from "../service/boardService";
 
 class EventController {
   public async getListEvents(req: Request, res: Response, next: NextFunction) {
@@ -10,7 +10,9 @@ class EventController {
       const { boardId } = req.params;
       const { id: userId } = getTokenData(req);
 
-      const events = await eventService.getEventsListByBoardId(boardId, userId);
+      await boardService.checkVisibility(boardId, userId);
+
+      const events = await eventService.getEventsListByBoardId(boardId);
 
       return res.json(events);
     } catch (error) {
@@ -23,7 +25,9 @@ class EventController {
       const body = req.body as ICreateEvent;
       const { id: userId } = getTokenData(req);
 
-      const event = await eventService.createEvent(boardId, userId, body);
+      await boardService.checkEditability(boardId, userId);
+
+      const event = await eventService.createEvent(boardId, body);
 
       return res.json(event);
     } catch (error) {
