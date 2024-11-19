@@ -12,7 +12,14 @@ class BoardService {
       include: [
         {
           model: Board,
-          attributes: ["id", "name", "description", "createdAt", "updatedAt"],
+          attributes: [
+            "id",
+            "name",
+            "description",
+            "isPrivate",
+            "createdAt",
+            "updatedAt",
+          ],
         },
       ],
     });
@@ -22,6 +29,7 @@ class BoardService {
       name: boardUser.Board.name,
       description: boardUser.Board.description,
       userRole: boardUser.userBoardRole,
+      isPrivate: boardUser.Board.isPrivate,
       createdAt: boardUser.Board.createdAt,
       updatedAt: boardUser.Board.updatedAt,
     }));
@@ -136,6 +144,45 @@ class BoardService {
       description: board.description,
       isPrivate: board.isPrivate,
     };
+  }
+
+  public async checkVisibility(boardId: string, userId: string) {
+    const board = await Board.findOne({ where: { id: boardId } });
+    if (!board)
+      throw RequestError.NotFound(`Can't find boars with id: ${boardId}`);
+
+    const userBoard = await BoardUser.findOne({
+      where: { boardId: boardId, userId: userId },
+    });
+    if (!userBoard)
+      throw RequestError.Forbidden(
+        "User has not permission to view this board!"
+      );
+
+    if (userBoard.userBoardRole !== EUserBoardRole.SPECTATOR) {
+      return true;
+    }
+    throw RequestError.Forbidden(
+      "User has not permission to modify this board!"
+    );
+  }
+
+  public async checkEditability(boardId: string, userId: string) {
+    const board = await Board.findOne({ where: { id: boardId } });
+    if (!board)
+      throw RequestError.NotFound(`Can't find boars with id: ${boardId}`);
+
+    if (board.isPrivate) {
+      const userBoard = await BoardUser.findOne({
+        where: { boardId: boardId, userId: userId },
+      });
+      if (!userBoard)
+        throw RequestError.Forbidden(
+          "User has not permission to view this board!"
+        );
+      return true;
+    }
+    return true;
   }
 }
 export default new BoardService();
