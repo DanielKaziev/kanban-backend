@@ -7,8 +7,11 @@ const PROTO_PATH = path.join(__dirname, "./proto/auth.proto"); // путь к в
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
 const authProto = grpc.loadPackageDefinition(packageDefinition).auth as any;
 
+const GRPC_HOST = process.env.KANBAN_GRPC_HOST || "localhost"
+const GRPC_PORT = process.env.KANBAN_GRPC_PORT || "50051"
+
 const client = new authProto.AuthService(
-  "localhost:50051",
+  `${GRPC_HOST}:${GRPC_PORT}`,
   grpc.credentials.createInsecure()
 );
 
