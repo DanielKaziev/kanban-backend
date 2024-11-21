@@ -5,7 +5,7 @@ import taskRouter from "./taskRouter";
 
 const router = Router();
 
-router.use("/boards", boardRouter);
+router.use("", boardRouter);
 router.use("/events", eventRouter);
 router.use("/tasks", taskRouter);
 

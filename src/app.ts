@@ -8,7 +8,7 @@ import errorMiddleware from "./middlewares/errorMiddleware";
 dotenv.config();
 
 const app: Application = express();
-const BASE_URL = process.env.KANBAN_BASE_API_URL || "/api";
+const BASE_URL = process.env.KANBAN_BASE_API_URL ?? "/api/boards";
 
 const corsOptions = {
   origin: "http://localhost:3000",
