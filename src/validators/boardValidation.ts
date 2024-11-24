@@ -25,7 +25,7 @@ export const validateCreateBoard = [
 ];
 
 export const validateIdBoard = [
-  param("id")
+  param("boardId")
     .isUUID()
     .withMessage("Id must be an UUID")
     .notEmpty()
